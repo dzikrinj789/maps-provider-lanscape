@@ -76,7 +76,7 @@
       <div class="wrap">
         <p class="label"><span class="mono">03</span><span class="dash"></span>Matriks kemampuan</p>
         <h2 class="h-sec">Bandingkan berdampingan.</h2>
-        <p class="lead">✓ ada, ◐ sebagian atau bersyarat, – tidak ada, cek = belum terverifikasi. Skor: ✓ = 1, ◐ = 0,5. Klik judul kolom untuk mengurutkan.</p>
+        <p class="lead">✓ ada, ◐ sebagian atau bersyarat, – tidak ada, cek = belum terverifikasi. Skor: <span class="nw">✓ = 1</span>, <span class="nw">◐ = 0,5</span>. Klik judul kolom untuk mengurutkan.</p>
         <div class="tabs" role="tablist" id="mx-tabs"></div>
         <div class="filters">
           <label class="field">Kelompok penyedia<select id="f-type"></select></label>
@@ -89,7 +89,7 @@
           <label class="tg"><input type="checkbox" id="f-os"> Open source/terbuka</label>
           <label class="tg"><input type="checkbox" id="f-indo"> Cakupan Indonesia kuat</label>
         </div>
-        <p class="mono small muted" id="mx-count"></p>
+        <p class="small muted" id="mx-count"></p>
         <div class="table-wrap"><table class="matrix" id="matrix"></table></div>
       </div>
     </section>
@@ -129,7 +129,7 @@
             </div>
 
             <div class="pg-pane" id="pane-route" hidden>
-              <p class="small">Klik peta untuk titik A lalu titik B, atau pakai preset.</p>
+              <p class="small">Klik peta untuk titik A, lalu titik B. Bisa juga pakai preset.</p>
               <div class="chips">
                 <button type="button" class="chip" data-preset="bdg-jkt">Bandung (Braga) → Jakarta (Monas)</button>
                 <button type="button" class="chip" data-preset="bdg">Dalam Bandung: Braga → ITB</button>
@@ -148,10 +148,6 @@
               <button type="button" class="pill pill-dark pg-run" id="pg-iso-run">Hitung isochrone</button>
             </div>
 
-            <div class="pg-provs">
-              <p class="sub">Penyedia untuk mode ini</p>
-              <div id="pg-provs"></div>
-            </div>
           </div>
 
           <div class="pg-mapcol">
@@ -162,6 +158,11 @@
             <div id="pg-map" class="pg-map" role="region" aria-label="Peta playground"></div>
             <p class="small muted" id="pg-map-note"></p>
           </div>
+        </div>
+
+        <div class="pg-provs">
+          <p class="sub">Penyedia untuk mode ini</p>
+          <div id="pg-provs" class="pg-provgrid"></div>
         </div>
 
         <div id="pg-results" class="pg-results" aria-live="polite"></div>

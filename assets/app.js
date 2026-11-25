@@ -4,6 +4,7 @@
   if (!D) { console.error("data.js tidak termuat"); return; }
   var CAPS = D.capabilities, P = D.providers, SYM = D.symbols, LBL = D.statusLabels;
   var $ = function (id) { return document.getElementById(id); };
+  var ucf = function (s) { s = String(s == null ? "" : s); return s === "cek" ? s : s.charAt(0).toUpperCase() + s.slice(1); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var host = function (u) { return u.replace(/^https?:\/\//, "").split("/")[0]; };
   var capIdx = {}; CAPS.forEach(function (c, i) { capIdx[c.k] = i; });
@@ -46,9 +47,9 @@
     $("detail").innerHTML =
       '<div class="detail-head"><div><div class="kicker">' + esc(D.providerGroups[p.type]) + (p.os ? " \u00b7 open source" : "") + "</div><h3>" + esc(p.name) + '</h3></div><label class="field" style="min-width:240px">Penyedia<select id="detail-select">' + opts + "</select></label></div>" +
       "<p>" + esc(p.desc) + "</p>" +
-      '<dl class="props"><dt>Free tier</dt><dd>' + esc(p.free) + "</dd><dt>Indonesia</dt><dd>" + esc(p.indo + (p.indoNote !== "cek" ? " \u00b7 " + p.indoNote : "")) + "</dd><dt>Kemampuan</dt><dd>" + fmt(score(p)) + " dari " + CAPS.length + ' kategori</dd><dt>Dokumentasi</dt><dd><a href="' + esc(p.docs) + '"' + ext + ">" + esc(host(p.docs)) + "</a></dd></dl>" +
+      '<dl class="props"><dt>Free tier</dt><dd>' + esc(ucf(p.free)) + "</dd><dt>Cakupan Indonesia</dt><dd>" + esc(ucf(p.indo) + (p.indoNote !== "cek" ? ". " + p.indoNote : "")) + "</dd><dt>Kemampuan</dt><dd>" + fmt(score(p)) + " dari " + CAPS.length + ' kategori</dd><dt>Dokumentasi</dt><dd><a href="' + esc(p.docs) + '"' + ext + ">" + esc(host(p.docs)) + "</a></dd></dl>" +
       '<p class="sub">Layanan yang tersedia</p><div class="chips">' + capsOn.map(function (c) { return '<span class="tool">' + SYM[cap(p, c.k)] + " " + esc(c.l) + "</span>"; }).join("") + "</div>" +
-      (notes.length ? '<p class="sub">Catatan</p><div class="notes">' + notes.map(function (k) { var c = CAPS[capIdx[k]]; return '<div class="note"><b>' + esc(c ? c.l : k) + "</b><span>" + esc(LBL[cap(p, k)]) + " \u00b7 " + esc(p.n[k]) + "</span></div>"; }).join("") + "</div>" : "") +
+      (notes.length ? '<p class="sub">Catatan</p><div class="notes">' + notes.map(function (k) { var c = CAPS[capIdx[k]]; return '<div class="note"><b>' + esc(c ? c.l : k) + '</b><span><span class="tool st-' + cap(p, k) + '">' + esc(LBL[cap(p, k)]) + "</span><span>" + esc(p.n[k]) + "</span></span></div>"; }).join("") + "</div>" : "") +
       (p.play.length ? '<p class="sub">Coba</p><div class="chips">' + p.play.map(function (l) { return '<a class="chip" style="color:var(--accent)" href="' + esc(l.u) + '"' + ext + ">" + esc(l.t) + " \u2197</a>"; }).join("") + "</div>" : '<p class="small">Belum ada playground publik.</p>');
     $("detail-select").addEventListener("change", function (e) { select(e.target.value, false); });
   }
@@ -102,10 +103,10 @@
     });
     var gc = CAPS.filter(function (c) { return c.g === mx.grp; });
     var cols = [{ k: "name", l: "Penyedia" }].concat(gc.map(function (c) { return { k: c.k, l: c.l }; }), [{ k: "grp", l: "Skor kelompok" }, { k: "total", l: "Total" }]);
-    var th = cols.map(function (c) { var s = mx.sortKey === c.k ? (mx.dir > 0 ? "ascending" : "descending") : "none"; return '<th scope="col" aria-sort="' + s + '"><button type="button" data-sort="' + c.k + '">' + esc(c.l) + "</button></th>"; }).join("");
+    var th = cols.map(function (c) { var s = mx.sortKey === c.k ? (mx.dir > 0 ? "ascending" : "descending") : "none"; var cls = c.k === "name" ? "" : (c.k === "grp" || c.k === "total") ? ' class="num"' : ' class="sym"'; return '<th scope="col"' + cls + ' aria-sort="' + s + '"><button type="button" data-sort="' + c.k + '">' + esc(c.l) + "</button></th>"; }).join("");
     var rows = list.map(function (p) {
       return '<tr><td><button type="button" data-prov="' + p.id + '" title="Lihat detail">' + esc(p.name) + "</button></td>" +
-        gc.map(function (c) { var v = cap(p, c.k); var note = p.n && p.n[c.k] ? ' title="' + esc(p.n[c.k]) + '"' : ""; return '<td class="' + v + '"' + note + ">" + SYM[v] + "</td>"; }).join("") +
+        gc.map(function (c) { var v = cap(p, c.k); var note = p.n && p.n[c.k] ? ' title="' + esc(p.n[c.k]) + '"' : ""; return '<td class="sym ' + v + '"' + note + ">" + SYM[v] + "</td>"; }).join("") +
         '<td class="num">' + fmt(score(p, mx.grp)) + '</td><td class="num">' + fmt(score(p)) + "</td></tr>";
     }).join("");
     $("matrix").innerHTML = "<thead><tr>" + th + "</tr></thead><tbody>" + rows + "</tbody>";
