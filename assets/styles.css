@@ -123,3 +123,43 @@ a.card .h{font-size:13px;color:var(--mute)}
 @media (max-width:560px){.wrap{padding:0 20px}.cards-340,.cards-280,.cards-260,.trends{grid-template-columns:1fr}.stat{grid-template-columns:88px 1fr}.stat b{font-size:38px}
   .props,.note{grid-template-columns:1fr}.props dd{border-top:0;padding-top:0}.nav-links{gap:16px}.band{clip-path:polygon(0 40px,50% 0,100% 40px,100% 100%,0 100%);padding:120px 0 96px}
   .detail{padding:22px}}
+/* playground */
+.pg{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:24px;margin-top:40px;align-items:start}
+.pg-side{display:flex;flex-direction:column;gap:16px}
+.pg-tabs{margin-top:0}
+.pg-pane{display:flex;flex-direction:column;gap:14px}
+.pg-pane[hidden]{display:none}
+.pg-run{height:48px;font-size:15px;cursor:pointer;font-family:var(--font)}
+.pg-provs .sub{margin-bottom:8px}
+.prow{display:grid;grid-template-columns:18px 12px 1fr;gap:10px;align-items:start;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.prow input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--accent)}
+.prow .dot{width:12px;height:12px;border-radius:50%;margin-top:4px}
+.prow .pn{font-weight:600}.prow .ps{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
+.prow.off{opacity:.55}
+.pg-mapcol{position:sticky;top:80px;display:flex;flex-direction:column;gap:12px}
+.pg-mapbar{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+.pg-mapbar .field{min-width:240px;flex:1}
+.pg-map{height:560px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--chip)}
+.pg-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:32px}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.rcard .rh{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.rcard .rn{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.rcard .dot{width:12px;height:12px;border-radius:50%;flex:none}
+.rcard .ms{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
+.rcard ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.rcard li button{all:unset;cursor:pointer;line-height:20px}.rcard li button:hover{color:var(--accent)}
+.rcard .co{display:block;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.rcard .err{color:#a33a2b}
+.rcard .attr{font-size:12px;color:var(--mute)}
+.rtable{grid-column:1/-1}
+.rtable table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.rtable th,.rtable td{padding:10px 12px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+.rtable th:first-child,.rtable td:first-child{text-align:left}
+.rtable thead th{border-top:0;background:var(--chip);font-size:13px}
+.pg-keys{margin-top:32px}
+.pg-keys summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}
+.pg-keys summary::-webkit-details-marker{display:none}
+.pg-keygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:8px}
+.pg-keygrid .field a{font-weight:400;font-size:12.5px}
+.pg-keygrid input{height:44px;border-radius:12px;border:1px solid #ababab;font:inherit;font-size:14px;padding:0 12px;font-family:var(--mono);width:100%}
+@media (max-width:900px){.pg{grid-template-columns:1fr}.pg-mapcol{position:static;order:-1}.pg-map{height:420px}}

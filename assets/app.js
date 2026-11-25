@@ -137,7 +137,7 @@
   // Trends + sources
   $("trends").innerHTML = D.trends.map(function (t, i) { return '<div class="trend"><span class="mono">0' + (i + 1) + "</span><h3>" + esc(t.t) + "</h3><p>" + esc(t.d) + '</p><a href="' + esc(t.s) + '"' + ext + ">Sumber: " + esc(host(t.s)) + " \u2197</a></div>"; }).join("");
   $("sources").innerHTML = D.sources.map(function (s) { return '<a class="tool" href="' + esc(s) + '"' + ext + ">" + esc(host(s)) + "</a>"; }).join("");
-  $("method").textContent = "Metodologi: semua link playground dan dokumentasi dicek pada " + checked + " (HTTP 200, atau 403 karena situs memblokir bot). Kemampuan diisi dari dokumentasi resmi tiap penyedia; sel bertanda cek belum terverifikasi. Harga sengaja tidak dibahas; free tier hanya ditandai ada atau tidak. Data ada di assets/data.js.";
+  $("method").textContent = "Metodologi: semua link playground dan dokumentasi dicek pada " + checked + " (HTTP 200, atau 403 karena situs memblokir bot). Kemampuan diisi dari dokumentasi resmi tiap penyedia; sel bertanda cek belum terverifikasi. Harga sengaja tidak dibahas; free tier hanya ditandai ada atau tidak. Data ada di assets/data.js. Playground langsung memanggil API penyedia dari browser kamu; key (jika diisi) hanya disimpan di localStorage.";
 
   renderGroups(); renderDetail(); renderSvc(); renderMatrix(); renderTry();
 })();

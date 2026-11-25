@@ -17,6 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -28,7 +29,7 @@
         <span>Lanskap Maps Service</span>
       </a>
       <nav aria-label="Navigasi utama" class="nav-links">
-        <a href="#pemain">Pemain</a><a href="#layanan">Layanan</a><a href="#matriks">Matriks</a><a href="#coba">Coba</a><a href="#tren">Tren</a>
+        <a href="#pemain">Pemain</a><a href="#layanan">Layanan</a><a href="#matriks">Matriks</a><a href="#coba">Coba</a><a href="#playground">Playground</a><a href="#tren">Tren</a>
       </nav>
     </div>
   </header>
@@ -104,9 +105,82 @@
       </div>
     </section>
 
+
+    <section id="playground" class="sec">
+      <div class="wrap">
+        <p class="label"><span class="mono">05</span><span class="dash"></span>Playground langsung</p>
+        <h2 class="h-sec">Bandingkan penyedia langsung di sini.</h2>
+        <p class="lead">Geocoding, reverse geocoding, rute, dan isochrone dari beberapa penyedia sekaligus, di peta yang sama. Penyedia tanpa key langsung jalan; penyedia lain aktif setelah kamu menempelkan API key sendiri.</p>
+
+        <div class="pg">
+          <div class="pg-side">
+            <div class="tabs pg-tabs" role="tablist" id="pg-tabs"></div>
+
+            <div class="pg-pane" id="pane-geo">
+              <label class="field">Alamat atau tempat<input id="pg-q" type="search" value="Jl. Braga, Bandung" autocomplete="off"></label>
+              <label class="tg"><input type="checkbox" id="pg-id" checked> Batasi ke Indonesia (jika penyedia mendukung)</label>
+              <button type="button" class="pill pill-dark pg-run" id="pg-geo-run">Cari di semua penyedia</button>
+              <p class="small muted">Pencarian hanya dijalankan saat tombol ditekan (tanpa autocomplete per ketikan), sesuai kebijakan pemakaian Nominatim.</p>
+            </div>
+
+            <div class="pg-pane" id="pane-rev" hidden>
+              <p class="small">Klik di mana saja pada peta. Titik itu akan di-reverse geocode oleh semua penyedia yang aktif.</p>
+              <p class="mono small muted" id="pg-rev-pt">Belum ada titik.</p>
+            </div>
+
+            <div class="pg-pane" id="pane-route" hidden>
+              <p class="small">Klik peta untuk titik A lalu titik B, atau pakai preset.</p>
+              <div class="chips">
+                <button type="button" class="chip" data-preset="bdg-jkt">Bandung (Braga) → Jakarta (Monas)</button>
+                <button type="button" class="chip" data-preset="bdg">Dalam Bandung: Braga → ITB</button>
+              </div>
+              <p class="mono small muted" id="pg-route-pts">A: – · B: –</p>
+              <div class="cta-row" style="margin-top:8px">
+                <button type="button" class="pill pill-dark pg-run" id="pg-route-run">Hitung rute</button>
+                <button type="button" class="pill pill-light pg-run" id="pg-route-reset">Reset titik</button>
+              </div>
+            </div>
+
+            <div class="pg-pane" id="pane-iso" hidden>
+              <p class="small">Klik peta untuk titik pusat, pilih waktu tempuh, lalu hitung area jangkauan (mobil).</p>
+              <label class="field">Waktu tempuh<select id="pg-iso-min"><option value="10">10 menit</option><option value="15" selected>15 menit</option><option value="30">30 menit</option></select></label>
+              <p class="mono small muted" id="pg-iso-pt">Pusat: Braga, Bandung (bawaan)</p>
+              <button type="button" class="pill pill-dark pg-run" id="pg-iso-run">Hitung isochrone</button>
+            </div>
+
+            <div class="pg-provs">
+              <p class="sub">Penyedia untuk mode ini</p>
+              <div id="pg-provs"></div>
+            </div>
+          </div>
+
+          <div class="pg-mapcol">
+            <div class="pg-mapbar">
+              <label class="field">Basemap<select id="pg-basemap"></select></label>
+              <button type="button" class="chip" id="pg-clear">Bersihkan peta</button>
+            </div>
+            <div id="pg-map" class="pg-map" role="region" aria-label="Peta playground"></div>
+            <p class="small muted" id="pg-map-note"></p>
+          </div>
+        </div>
+
+        <div id="pg-results" class="pg-results" aria-live="polite"></div>
+
+        <details class="card pg-keys" id="pg-keys">
+          <summary><span class="sub" style="margin:0">Kunci API (opsional)</span><span class="mono small muted" id="pg-keycount"></span></summary>
+          <p class="small">Key disimpan hanya di browser kamu (localStorage) dan dikirim langsung dari browser ke API penyedia. Tidak ada server perantara. Pakai key yang dibatasi domain/referrer, dan hapus kapan saja dengan tombol di bawah. Server demo publik gratis (Nominatim, Photon, OSRM, Valhalla FOSSGIS, OpenFreeMap, tile OSM) punya batas fair use: jangan dipakai untuk beban berat atau otomatis.</p>
+          <div class="pg-keygrid" id="pg-keygrid"></div>
+          <div class="cta-row" style="margin-top:16px">
+            <button type="button" class="pill pill-dark pg-run" id="pg-keys-save">Simpan key</button>
+            <button type="button" class="pill pill-light pg-run" id="pg-keys-clear">Hapus semua key</button>
+          </div>
+        </details>
+      </div>
+    </section>
+
     <section id="tren" class="band">
       <div class="wrap">
-        <p class="label on-dark"><span class="mono">05</span><span class="dash"></span>Tren yang terlihat</p>
+        <p class="label on-dark"><span class="mono">06</span><span class="dash"></span>Tren yang terlihat</p>
         <h2 class="h-sec">Fitur dasar makin mirip. Bedanya ada di data dan akses.</h2>
         <div class="trends" id="trends"></div>
       </div>
@@ -121,5 +195,7 @@
 
   <script src="assets/data.js"></script>
   <script src="assets/app.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.1/dist/maplibre-gl.js"></script>
+  <script src="assets/playground.js"></script>
 </body>
 </html>
